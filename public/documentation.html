@@ -4,30 +4,156 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Movies Rolodex</title>
+    <title>Stubz</title>
     <link rel="shortcut icon" href="">
-    <link href="https://fonts.googleapis.com/css2?family=Rampart+One&family=Titan+One&family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Roboto:ital,wght@0,300;0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link href="" rel="scriptsheet" type="text/js" />
-    <link href="" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
 
   <body>
-    <h1>Introduction</h1>
-    <p>To build the server-side component of a “movies” web application. The web
-        application will provide users with access to information about different
-        movies, directors, and genres. Users will be able to sign up, update their
-        personal information, and create a list of their favorite movies.
+    <h1>Stubz Documentation</h1>
+    <p>A guideline to Stubz' endpoints. This web application will provide users with access to information about different
+        movies, directors, and genres. Users will be able to sign up, update their personal information, and create a list of their favorite movies.
     </p>
 
 
+  <table class="table table-striped table-bordered table-hover table-sm w-75 m-auto mb-5">
 
+    <thead>
+      <tr>
+        <th scope="col">Business Logic</th>
+        <th scope="col">URL & Query Parameters</th>
+        <th scope="col">HTTP Method</th>
+        <th scope="col">Request format</th>
+        <th scope="col">Response format</th>
+      </tr>
+    </thead>
 
+    <tbody>
+      <tr>
+        <td>Return a list of all movies</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding all movies along with their info</td>
+      </tr>
 
+      <tr>
+        <td>Return data about a single movie by title</td>
+        <td>/movies/[title] <b>or</b> /movies/:title</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about a movie:
+          <br> {
+          <br> "id": 1,
+          <br> "imageUrl": "",
+          <br> "title": "Interstellar",
+          <br> "year": "2014",
+          <br> "genre": "Sci-fi",
+          <br> "director": {
+            name: 'Christopher Nolan',
+            bio: 'British-American',
+            birth: 'July 30, 1970',
+            death: '-'}
+          <br> }
+        </td>
+      </tr>
 
+      <tr>
+        <td>Return movies according to the genre</td>
+        <td>/movies/?genre=[genre] <b>or</b> /movies/?genre=:genre</td>
+        <td>GET</td>
+        <td>The search query contains a genre type</td>
+        <td>A JSON object holding all movies that share the genre</td>
+      </tr>
 
+      <tr>
+        <td>Return data about a director by name</td>
+        <td>/directors/[name] <b>or</b> /directors/:name</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about the director and associated movie(s)</td>
+      </tr>
 
+      <tr>
+        <td>Allow new users to register</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>A JSON object holding data about the new user to add:
+          <br> {
+          <br> "username": "John Smith",
+          <br> "first_name": "John",
+          <br> "last_name": "Smith",
+          <br> "password": "ilovemovies123",
+          <br> "email": "johnsmith@gmail.com"
+          <br> }
+        </td>
+        <td>A JSON object holding data about the new user that has been successfully registered:
+          <br> {
+          <br> "username": "JohnSmith.2021",
+          <br> "first_name": "John",
+          <br> "last_name": "Smith",
+          <br> "password": "ilovemovies123",
+          <br> "email": "johnsmith@gmail.com",
+          <br> "user_id: [uuid.v4()]
+          <br> }
+        </td>
+      </tr>
 
+      <tr>
+        <td>Allow users to view their profile</td>
+        <td>/users/[username] <b>or</b> /users/:username</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding all data about a specific user:
+          <br> {
+          <br> "user_id": [uuid.v4()],
+          <br> "username": "careerfoundry",
+          <br> "first_name": "Career",
+          <br> "last_name": "Foundry",
+          <br> "password": "moviesapp",
+          <br> "email": "careerfoundry@gmail.com",
+          <br> "favorites": ["Fury"]
+          <br> }
+        </td>
+      </tr>
+
+      <tr>
+        <td>Allow users to update their info</td>
+        <td>/users/[user_id] <b>or</b> /users/:id</td>
+        <td>PUT</td>
+        <td>A JSON object holding the update about the user:
+          <br> {
+          <br> "email": "careerfoundry20@gmail.com"
+          <br> }
+        </td>
+        <td>>A verification text stating whether or not the update has been successful</td>
+      </tr>
+
+      <tr>
+        <td>Allow users to add movies to their list of favorites</td>
+        <td>/users/[user_id]/favorites/[movie] <b>or</b> /users/:id/favorites/:movie</td>
+        <td>POST</td>
+        <td>Registered user individual (user_id) adds a movie to their list of favorites</td>
+        <td>A verification text stating whether or not the movie has been successfully added</td>
+      </tr>
+
+      <tr>
+        <td>Allow users to remove movies from their list of favorites</td>
+        <td>/users/[user_id]/favorites/[movie] <b>or</b> /users/:id/favorites/:movie</td>
+        <td>DELETE</td>
+        <td>Registered user individual (user_id) removes a movie from their list of favorites</td>
+        <td>A verification text stating whether or not the movie has been successfully deleted</td>
+      </tr>
+
+      <tr>
+        <td>Allow existing users to deregister</td>
+        <td>/users/[user_id] <b>or</b> /users/:id</td>
+        <td>DELETE</td>
+        <td>None</td>
+        <td>A verification message stating whether or not the user was able to successfully deregister</td>
+      </tr>
+    </tbody>
+  </table>
 
 
   </body>

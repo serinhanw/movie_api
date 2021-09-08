@@ -44,16 +44,18 @@
         <td>None</td>
         <td>A JSON object holding data about a movie:
           <br> {
-          <br> "id": 1,
-          <br> "imageUrl": "",
-          <br> "title": "Interstellar",
-          <br> "year": "2014",
-          <br> "genre": "Sci-fi",
-          <br> "director": {
-            name: 'Christopher Nolan',
-            bio: 'British-American',
-            birth: 'July 30, 1970',
-            death: '-'}
+          <br> "_id": "61372e92d45150df08f8ba44",
+          <br> "Title": "Prometheus",
+          <br> "Description": "Following clues to the origin of mankind, a team finds a structure on a distant moon, but they soon realize they are not alone.",
+          <br> "Genre": [
+          <br> "6138882a546d98020c9af3ea"
+          <br>  ],
+          <br> "Director": [
+          <br>"6138813d546d98020c9af3e1"
+          <br>  ],
+          <br> "ImagePath": "https://m.media-amazon.com/images/M/MV5BMTY3NzIyNTA2NV5BMl5BanBnXkFtZTcwNzE2NjI4Nw@@._V1_FMjpg_UX1000_.jpg",
+          <br> "Featured": true,
+          <br> "Year": "2012"
           <br> }
         </td>
       </tr>
@@ -75,26 +77,34 @@
       </tr>
 
       <tr>
+        <td>Return a list of all users</td>
+        <td>/users</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding all users along with their info</td>
+      </tr>
+
+      <tr>
         <td>Allow new users to register</td>
         <td>/users</td>
         <td>POST</td>
         <td>A JSON object holding data about the new user to add:
           <br> {
-          <br> "username": "John Smith",
-          <br> "first_name": "John",
-          <br> "last_name": "Smith",
-          <br> "password": "ilovemovies123",
-          <br> "email": "johnsmith@gmail.com"
+          <br> "username": "johndoe",
+          <br> "password": "proteinshake",
+          <br> "email": "john@email.com",
+          <br> "Birthday": "1999-10-11"
           <br> }
         </td>
         <td>A JSON object holding data about the new user that has been successfully registered:
           <br> {
-          <br> "username": "JohnSmith.2021",
-          <br> "first_name": "John",
-          <br> "last_name": "Smith",
-          <br> "password": "ilovemovies123",
-          <br> "email": "johnsmith@gmail.com",
-          <br> "user_id: [uuid.v4()]
+          <br> "username": "johndoe",
+          <br> "password": "proteinshake",
+          <br> "email": "john@email.com",
+          <br> "favorites": [],
+          <br> "Birthday": "1999-10-11T00:00:00.000Z",
+          <br> "_id": "389d7886688fc37",
+          <br> "__v": 0
           <br> }
         </td>
       </tr>
@@ -106,24 +116,26 @@
         <td>None</td>
         <td>A JSON object holding all data about a specific user:
           <br> {
-          <br> "user_id": [uuid.v4()],
-          <br> "username": "careerfoundry",
-          <br> "first_name": "Career",
-          <br> "last_name": "Foundry",
-          <br> "password": "moviesapp",
-          <br> "email": "careerfoundry@gmail.com",
-          <br> "favorites": ["Fury"]
+          <br> "_id": "61373781d45150df08f8ba4b",
+          <br> "username": "dwightschrute",
+          <br> "password": "beets",
+          <br> "email": "dwight@email.com",
+          <br> "favorites": [
+          <br> "61372e92d45150df08f8ba44",
+          <br> "6137319fd45150df08f8ba49"
+          <br>  ],
+          <br> "Birthday": "1970-01-20T00:00:00.000Z"
           <br> }
         </td>
       </tr>
 
       <tr>
         <td>Allow users to update their info</td>
-        <td>/users/[user_id] <b>or</b> /users/:id</td>
+        <td>/users/username <b>or</b> /users/:username</td>
         <td>PUT</td>
         <td>A JSON object holding the update about the user:
           <br> {
-          <br> "email": "careerfoundry20@gmail.com"
+          <br> "Birthday": "2000-01-02"
           <br> }
         </td>
         <td>>A verification text stating whether or not the update has been successful</td>
@@ -131,23 +143,23 @@
 
       <tr>
         <td>Allow users to add movies to their list of favorites</td>
-        <td>/users/[user_id]/favorites/[movie] <b>or</b> /users/:id/favorites/:movie</td>
+        <td>/users/username/movies/[movie] <b>or</b> /users/:username/movies/:movie</td>
         <td>POST</td>
-        <td>Registered user individual (user_id) adds a movie to their list of favorites</td>
+        <td>Registered user individual adds a movie to their list of favorites</td>
         <td>A verification text stating whether or not the movie has been successfully added</td>
       </tr>
 
       <tr>
         <td>Allow users to remove movies from their list of favorites</td>
-        <td>/users/[user_id]/favorites/[movie] <b>or</b> /users/:id/favorites/:movie</td>
+        <td>/users/username/movies/[movie] <b>or</b> /users/:username/movies/:movie</td>
         <td>DELETE</td>
-        <td>Registered user individual (user_id) removes a movie from their list of favorites</td>
+        <td>Registered user individual removes a movie from their list of favorites</td>
         <td>A verification text stating whether or not the movie has been successfully deleted</td>
       </tr>
 
       <tr>
         <td>Allow existing users to deregister</td>
-        <td>/users/[user_id] <b>or</b> /users/:id</td>
+        <td>/users/username <b>or</b> /users/:username</td>
         <td>DELETE</td>
         <td>None</td>
         <td>A verification message stating whether or not the user was able to successfully deregister</td>

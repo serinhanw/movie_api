@@ -14,6 +14,10 @@ const Genres = Models.Genre;
 
 mongoose.connect('mongodb://localhost:27017/StubzDB', {useNewUrlParser: true, useUnifiedTopology: true});
 
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
+
 
 // _____middleware_____
 app.use(morgan('common'));
@@ -23,13 +27,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
+
 app.get('/', (req, res) => {
   res.send('Welcome to Stubz!');
 });
 
 
 // _____get all movies_____
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.find()
   .then((movies) => {
     res.status(201).json(movies);
@@ -52,21 +57,10 @@ app.get('/movies/:title', (req, res) => {
 
 
 // _____get a movie by genre_____
- // app.get('/movies/:title/genre/:genreID', (req, res) => {
- //   Movies.find({Genre: req.params.genre}).populate('Genre').exec((err, movies) =>{
- //     if (err) {
- //       console.error(err);
- //       res.status(500).send('Error: ' + err);
- //     } else {
- //       res.status(201).json(movies);
- //     }
- //   })
- // });
-
- app.get('/movies/:title/genre/:genreID', (req, res) => {
-   Movies.find({Title: req.params.title, Genre: req.params.genreID})
+ app.get('/movies/genre/:genreID', (req, res) => {
+   Movies.find({Genre: req.params.genreID})
    .then((movies) => {
-     res.json(movie);
+     res.json(movies);
    }).catch((err) => {
      console.error(err);
      res.status(500).send('Error: ' + err);

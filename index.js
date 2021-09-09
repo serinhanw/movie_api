@@ -14,9 +14,12 @@ const Genres = Models.Genre;
 
 mongoose.connect('mongodb://localhost:27017/StubzDB', {useNewUrlParser: true, useUnifiedTopology: true});
 
+const cors = require('cors');
+app.use(cors());
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
+const {check, validationResult} = require('express-validator');
 
 
 // _____middleware_____
@@ -24,7 +27,6 @@ app.use(morgan('common'));
 app.use(express.static('public')); // this helps navigate to http://127.0.0.1:8080/documentation.html”
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 
 
@@ -100,7 +102,19 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => 
   Email: String,
   Birthday: Date
 } */
-app.post('/users', (req, res) => {
+app.post('/users', [
+  check('username', 'username is required').isLength({min: 5}),
+  check('username', 'username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('password', 'password is required').not().isEmpty(),
+  check('email', 'email does not appear to be valid').isEmail()
+], (req, res) => {
+  //check validation object for errors
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({errors: errors.array()});
+  }
+
+  let hashedPassword = Users.hashPassword(req.body.password);
   Users.findOne({username: req.body.username})
   .then((user) => {
     if (user) {
@@ -108,7 +122,7 @@ app.post('/users', (req, res) => {
     } else {
       Users.create({
         username: req.body.username,
-        password: req.body.password,
+        password: hashedPassword,
         email: req.body.email,
         Birthday: req.body.Birthday
       })
@@ -225,6 +239,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-app.listen(8080, () => {
-  console.log('Your app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
 });

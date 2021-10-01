@@ -120,6 +120,7 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => 
   Birthday: Date
 } */
 app.post('/users', [
+  check('first name', 'first name is required').not().isEmpty(),
   check('username', 'username is required').isLength({min: 5}),
   check('username', 'username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('password', 'password is required').not().isEmpty(),
@@ -138,6 +139,7 @@ app.post('/users', [
       return res.status(400).send(req.body.username + 'already exists');
     } else {
       Users.create({
+        FirstName: req.body.FirstName,
         username: req.body.username,
         password: hashedPassword,
         email: req.body.email,
@@ -181,6 +183,8 @@ app.get('/users/:username', passport.authenticate('jwt', {session: false}), (req
 app.put('/users/:username', passport.authenticate('jwt', {session: false}), (req, res) => {
   Users.findOneAndUpdate({username: req.params.username}, {$set:
   {
+    FirstName: req.body.FirstName,
+    LastName: req.body.LastName,
     username: req.body.username,
     password: req.body.password,
     email: req.body.email,

@@ -120,7 +120,7 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => 
   Birthday: Date
 } */
 app.post('/users', [
-  check('first name', 'first name is required').not().isEmpty(),
+  check('FirstName', 'first name is required').not().isEmpty(),
   check('username', 'username is required').isLength({min: 5}),
   check('username', 'username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('password', 'password is required').not().isEmpty(),

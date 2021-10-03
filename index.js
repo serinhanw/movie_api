@@ -44,7 +44,7 @@ const {check, validationResult} = require('express-validator');
 app.use(morgan('common'));
 app.use(express.static('public')); // this helps navigate to http://127.0.0.1:8080/documentation.html”
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 

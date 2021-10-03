@@ -18,6 +18,17 @@ const Genres = Models.Genre;
 mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
 
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
+const {check, validationResult} = require('express-validator');
+
+
+// _____middleware_____
+app.use(morgan('common'));
+app.use(express.static('public')); // this helps navigate to http://127.0.0.1:8080/documentation.html”
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const cors = require('cors');
 // let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
@@ -41,19 +52,6 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
-
-let auth = require('./auth')(app);
-const passport = require('passport');
-require('./passport');
-const {check, validationResult} = require('express-validator');
-
-
-// _____middleware_____
-app.use(morgan('common'));
-app.use(express.static('public')); // this helps navigate to http://127.0.0.1:8080/documentation.html”
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 
 

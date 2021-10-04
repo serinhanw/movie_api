@@ -67,7 +67,7 @@ app.use(function (req, res, next) {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
-  res.header("Cross-Origin-Resource-Policy", "cross-origin");
+  // res.header("Cross-Origin-Resource-Policy", "cross-origin");
   next();
 });
 

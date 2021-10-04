@@ -49,7 +49,7 @@ const cors = require('cors');
 //     }
 //     return callback(null, true);
 //   }
-}));
+// }));
 // app.use(cors());
 // app.use(function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*");

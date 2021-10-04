@@ -5,31 +5,38 @@ const express = require('express'),
       mongoose = require('mongoose'),
       Models = require('./models.js');
 
-const app = express();
+// const app = express();
+//
+// const port = process.env.PORT || 8080;
 
 const Movies = Models.Movie;
 const Users = Models.User;
 const Directors = Models.Director;
 const Genres = Models.Genre;
 
+const app = express();
+
+const port = process.env.PORT || 8080;
 
 
+// ___Atlas database connection___
 // mongoose.connect('mongodb://localhost:27017/StubzDB', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
 
-let auth = require('./auth')(app);
-const passport = require('passport');
-require('./passport');
-const {check, validationResult} = require('express-validator');
+// let auth = require('./auth')(app);
+// const passport = require('passport');
+// require('./passport');
+// const {check, validationResult} = require('express-validator');
 
 
-// _____middleware_____
+// ___Middleware___
 app.use(morgan('common'));
 app.use(express.static('public')); // this helps navigate to http://127.0.0.1:8080/documentation.html”
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); //false
+app.use(bodyParser.urlencoded({ extended: false })); //false
 
+// ___CORS___
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
 app.use(cors({
@@ -53,6 +60,22 @@ app.use(cors({
 //   next();
 // });
 
+app.use(cors());
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Cross-Origin-Resource-Policy", "cross-origin");
+  next();
+});
+
+//___Authentication & Passport___
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
+const {check, validationResult} = require('express-validator');
 
 
 app.get('/', (req, res) => {
@@ -267,7 +290,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-const port = process.env.PORT || 8080;
+// const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
 });

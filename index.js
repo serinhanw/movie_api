@@ -34,7 +34,7 @@ mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedT
 app.use(morgan('common'));
 app.use(express.static('public')); // this helps navigate to http://127.0.0.1:8080/documentation.html”
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false })); //false
+app.use(bodyParser.urlencoded({ extended: true })); //false
 
 // ___CORS___
 const cors = require('cors');
@@ -50,15 +50,6 @@ const cors = require('cors');
 //     return callback(null, true);
 //   }
 // }));
-// app.use(cors());
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
 
 app.use(cors());
 app.use(function (req, res, next) {
@@ -95,7 +86,7 @@ app.get('/movies', /*passport.authenticate('jwt', {session: false}),*/ (req, res
 
 // _____get a movie by title_____
 app.get('/movies/:title', passport.authenticate('jwt', {session: false}), (req, res) => {
-  Movies.findOne({Title: req.params.title})
+  Movies.findOne({Title: req.params.title}).populate('Genre', 'name')
   .then((movie) => {
     res.json(movie);
   }).catch((err) => {

@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true })); //false
 
 // ___CORS___
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://stubz.herokuapp.com', '*'];
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
@@ -74,7 +74,7 @@ app.get('/', (req, res) => {
 
 // _____get all movies_____
 app.get('/movies', /*passport.authenticate('jwt', {session: false}),*/ (req, res) => {
-  Movies.find()
+  Movies.find().populate('Genre Director')
   .then((movies) => {
     res.status(201).json(movies);
   }).catch((err) => {
@@ -84,8 +84,8 @@ app.get('/movies', /*passport.authenticate('jwt', {session: false}),*/ (req, res
 });
 
 // _____get a movie by title_____
-app.get('/movies/:title', passport.authenticate('jwt', {session: false}), (req, res) => {
-  Movies.findOne({Title: req.params.title})
+app.get(/*'/movies/:title'*/'/movies/title/:title', passport.authenticate('jwt', {session: false}), (req, res) => {
+  Movies.findOne({Title: req.params.title}).populate('Genre Director')
   .then((movie) => {
     res.json(movie);
   }).catch((err) => {

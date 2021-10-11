@@ -74,7 +74,7 @@ app.get('/', (req, res) => {
 
 // _____get all movies_____
 app.get('/movies', /*passport.authenticate('jwt', {session: false}),*/ (req, res) => {
-  Movies.find()//.populate('Genre Director')
+  Movies.find().populate('Genre Director')
   .then((movies) => {
     res.status(201).json(movies);
   }).catch((err) => {

@@ -31,7 +31,7 @@ mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedT
 
 
 // ___Middleware___
-app.use(morgan('common'));
+app.use(morgan('combined')); //common
 app.use(express.static('public')); // this helps navigate to http://127.0.0.1:8080/documentation.html”
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); //false
@@ -74,7 +74,7 @@ app.get('/', (req, res) => {
 
 // _____get all movies_____
 app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
-  Movies.find().populate('Genre Director')
+  Movies.find()//.populate('Genre Director')
   .then((movies) => {
     res.status(201).json(movies);
   }).catch((err) => {

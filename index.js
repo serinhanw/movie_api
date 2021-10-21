@@ -74,7 +74,8 @@ app.get('/', (req, res) => {
 
 // _____get all movies_____
 app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
-  Movies.find().populate('Genre Director')
+  // Movies.find().populate('Genre Director')
+  Movies.find({}).populate({path:'Genre', model:'Genre'}).populate({path:'Director', model: 'Director'})
   .then((movies) => {
     res.status(201).json(movies);
   }).catch((err) => {
@@ -107,6 +108,26 @@ app.get(/*'/movies/:title'*/'/movies/title/:title', passport.authenticate('jwt',
  });
 
  //////////////
+ app.get('/genres', passport.authenticate('jwt', {session: false}), (req, res) => {
+   Genres.find()
+   .then((genres) => {
+     res.json(genres);
+   }).catch((err) => {
+     console.error(err);
+     res.status(500).send('Error: ' + err);
+   });
+ });
+
+ app.get('/genres/:name', passport.authenticate('jwt', {session: false}), (req, res) => {
+   Genres.findOne({ 'Name': req.params.name })
+   .then((genre) => {
+     res.json(genre);
+   }).catch((err) => {
+     console.error(err);
+     res.status(500).send('Error: ' + err);
+   });
+ });
+
  app.get("/directors", passport.authenticate("jwt", { session: false }), (req, res) => {
    Directors.find()
      .then((directors) => {

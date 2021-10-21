@@ -106,6 +106,30 @@ app.get(/*'/movies/:title'*/'/movies/title/:title', passport.authenticate('jwt',
    });
  });
 
+ //////////////
+ app.get("/directors", passport.authenticate("jwt", { session: false }), (req, res) => {
+   Directors.find()
+     .then((directors) => {
+       res.status(201).json(directors);
+     })
+     .catch((err) => {
+       console.error(err);
+       res.status(500).send("Error: " + err);
+     });
+ });
+
+ // app.get('/movies/director/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
+ //   Movies.findOne({ 'Director.Name': req.params.name })
+ //     .then((director) => {
+ //       res.status(200).json(director.Director);
+ //     })
+ //     .catch((err) => {
+ //       console.error(err);
+ //       res.status(500).send('Error: ' + err);
+ //     });
+ // });
+///////////////
+
 
 
 // _____get a director by name_____

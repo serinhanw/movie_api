@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true })); //false
 
 // ___CORS___
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://stubz.herokuapp.com'/*, '*'*/];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://stubz.herokuapp.com', 'https://stubz.netlify.app'/*, '*'*/];
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);

@@ -57,4 +57,6 @@ reading data from requests and morgan for logging.
 - MongoDB
 - Mongoose
 
-## Hosted on Heroku (Check it out!): [Stubz](https://stubz.herokuapp.com/)
+## API Documentation
+https://stubz.herokuapp.com/documentation.html
+### Hosted on Heroku 

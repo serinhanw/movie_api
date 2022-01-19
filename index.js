@@ -43,7 +43,10 @@ let allowedOrigins = [
   'http://localhost:1234',
   'http://localhost:4200',
   'https://stubz.herokuapp.com',
-  'https://stubz.netlify.app'
+  'https://stubz.netlify.app',
+  'https://serinhanw.github.io',
+  'https://serinhanw.github.io/stubz-Angular-client',
+  'https://serinhanw.github.io/stubz-Angular-client/welcome'
   /*, '*'*/];
 app.use(cors({
   origin: (origin, callback) => {
